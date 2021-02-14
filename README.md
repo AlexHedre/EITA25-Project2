@@ -1,2 +1,2 @@
-# Group5Project2
-Project 2 in Computer Security
+# EITA25-Project2
+Group 5s solution to Project 2 in computer security.
