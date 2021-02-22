@@ -18,11 +18,11 @@ public class Record {
     }
 
     public boolean canRead(Person person) {
-        return (person.getId() == patient.getId());
+        return (person.getId().equals(patient.getId()));
     }
 
     public boolean canWrite(Person person) {
-        return (person.getId() == doctor.getId() || person.getId() == nurse.getId());
+        return (person.getId().equals(doctor.getId()) || person.getId().equals(nurse.getId()));
     }
 
     public void writeToRecord(String data) {
