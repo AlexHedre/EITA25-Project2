@@ -5,10 +5,10 @@ public class Person {
     private String name;
     private Division div;
 
-    public Person(String name, Division div, String id) {
+    public Person(String id, String name, Division div) {
+        this.id = id;
         this.name = name;
         this.div = div;
-        this.id=id;
     }
 
     public String getName() {
