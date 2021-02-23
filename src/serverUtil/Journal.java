@@ -10,11 +10,11 @@ public class Journal {
     private String nurseId;
     private Division division;
 
-    public Journal(Patient patient, Doctor doctor, Nurse nurse, Division division) {
+    public Journal(String patientId, String doctorId, String nurseId, Division division) {
         records = new ArrayList<Record>();
-        patientId = patient.getId();
-        doctorId = doctor.getId();
-        nurseId = nurse.getId();
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.nurseId = nurseId;
     }
 
     public String getDoctorId(){
@@ -25,7 +25,7 @@ public class Journal {
         return nurseId;
     }
 
-    public void addEntry(Record record) {
+    public void addRecord(Record record) {
         records.add(record);
     }
 

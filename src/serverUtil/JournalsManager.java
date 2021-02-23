@@ -19,5 +19,11 @@ public class JournalsManager {
 
     public void readJournals() {
         FileReader fileReader;
+        try {
+            fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,13 +1,15 @@
 package staff;
 
 public class Division {
-    private String divisionId;
+    private String id;
+    private String name;
 
-    public Division(String id) {
-        this.divisionId = id;
+    public Division(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String toString(){
-        return divisionId;
+        return id;
     }
 }
