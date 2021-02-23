@@ -90,8 +90,6 @@ public class Client {
                 }
                 out.println(msg[0]);
                 out.flush();
-
-                System.out.println(in.readLine());
             }
             in.close();
             out.close();
