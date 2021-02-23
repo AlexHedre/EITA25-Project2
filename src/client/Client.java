@@ -43,9 +43,9 @@ public class Client {
                 TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 
                 SSLContext ctx = SSLContext.getInstance("TLS");
-                ks.load(new FileInputStream("Certificates/ClientStores/" + msg[0]), password);  //keystore
+                ks.load(new FileInputStream("Certificates/ClientStore/" + msg[0]), password);  //keystore
 
-                ts.load(new FileInputStream("Certificates/ClientStores/clienttruststore"), "password".toCharArray()); //truststore
+                ts.load(new FileInputStream("Certificates/ClientStore/clienttruststore"), "password".toCharArray()); //truststore
 
                 kmf.init(ks, password); // user password (keypass)
                 tmf.init(ts); // keystore can be used as truststore here
@@ -75,6 +75,9 @@ public class Client {
 
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            System.out.println("Sending username...\n");
+            out.println(msg[0]);
             while (socket.isConnected()) {
                 String input;
                 while (!(input = in.readLine()).equals("ENDOFMSG")) {
@@ -87,6 +90,8 @@ public class Client {
                 }
                 out.println(msg[0]);
                 out.flush();
+
+                System.out.println(in.readLine());
             }
             in.close();
             out.close();

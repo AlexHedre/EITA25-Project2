@@ -36,7 +36,7 @@ public class Server implements Runnable {
             String clientMsg;
             while ((clientMsg = in.readLine()) != "" && clientMsg != null && !clientMsg.equals("quit")) {
                 /*** where stuff needs to be done ***/
-
+                out.println("response".toCharArray());
                 out.println("ENDOFMSG".toCharArray());
             }
             in.close();
@@ -82,7 +82,6 @@ public class Server implements Runnable {
                 KeyStore ks = KeyStore.getInstance("JKS");
                 KeyStore ts = KeyStore.getInstance("JKS");
                 char[] password = "password".toCharArray();
-
                 ks.load(new FileInputStream("Certificates/ServerStore/serverkeystore"), password);  // keystore password (storepass)
                 ts.load(new FileInputStream("Certificates/ServerStore/servertruststore"), password); // truststore password (storepass)
                 kmf.init(ks, password); // certificate password (keypass)
