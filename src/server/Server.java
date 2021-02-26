@@ -5,6 +5,8 @@ import java.security.KeyStore;
 import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
+import serverUtil.*;
+import staff.*;
 
 public class Server implements Runnable {
     private ServerSocket serverSocket = null;
@@ -33,10 +35,15 @@ public class Server implements Runnable {
             System.out.println("client name (cert subject DN field): " + subject);
             System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
+            ClientInputManager clientInputManager = new ClientInputManager();
+            Person person = clientInputManager.getPerson(cert);
+
             String clientMsg;
-            while ((clientMsg = in.readLine()) != "" && clientMsg != null && !clientMsg.equals("quit")) {
+            while (!(clientMsg = in.readLine()).isEmpty() && clientMsg != null && !clientMsg.equals("quit")) {
+
                 /*** where stuff needs to be done ***/
-                out.println("response".toCharArray());
+                String response = clientInputManager.handleClientInput(clientMsg, person);
+                out.println(response);
                 out.println("ENDOFMSG".toCharArray());
             }
             in.close();

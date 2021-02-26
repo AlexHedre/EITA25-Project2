@@ -15,6 +15,7 @@ public class Journal {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.nurseId = nurseId;
+        this.division = division;
     }
 
     public String getDoctorId(){
@@ -30,7 +31,8 @@ public class Journal {
     }
 
     public boolean canRead(Person person) {
-        return (person.getId().equals(patientId));
+        return (person.getId().equals(patientId) || person instanceof GovermentAgency) ||
+               ((person instanceof Doctor || person instanceof Nurse) && person.getDivision().equals(division));
     }
 
     public boolean canWrite(Person person) {

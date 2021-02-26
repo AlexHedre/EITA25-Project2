@@ -1,10 +1,10 @@
 package staff;
 
 public class Patient extends Person {
-    private Doctor doctor;
+    private String doctorId;
 
-    public Patient(String name, Division div, String id, Doctor doctor) {
+    public Patient(String name, Division div, String id, String doctorId) {
         super(name, id, div);
-        this.doctor = doctor;
+        this.doctorId = doctorId;
     }
 }
