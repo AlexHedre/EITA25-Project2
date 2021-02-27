@@ -73,6 +73,7 @@ public class PersonInformationManager {
                 } else {
                     person = new Patient(name ,division, id, personInfo[5]);
                 }
+                persons.put(serialNumber, person);
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {

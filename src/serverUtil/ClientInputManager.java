@@ -27,9 +27,35 @@ public class ClientInputManager {
         journalsManager.saveJournals();
     }
 
-    public String handleClientInput(String input, Person person) {
+    public String handleClientInput(String clientInput, Person person) {
+        String[] inputs = clientInput.split(" ");
 
-        return "";
+
+
+        return listOptions(person);
+    }
+
+    private String listOptions(Person person) {
+        String options = "";
+
+        if (person instanceof Nurse || person instanceof Doctor) {
+            options += "Enter 1 to list patient records\n" +
+                    "Enter 2 to list division records\n" +
+                    "Enter 3 followed by id to read a patient record (example: 3 5)\n" +
+                    "Enter 4 followed by patient id to write a patient record (example 4 5)\n";
+        }
+        if (person instanceof Doctor) {
+            options += "Enter 5 followed by patient id followed by nurse id to create a patient record (example 5 6 2)\n";
+        }
+        if (person instanceof GovernmentAgency) {
+            options += "Enter 3 followed by id to read a patient record (example: 3 5)\n" +
+                    "Enter 6 followed by id to delete a patient record (example 6 5)\n";
+        }
+        if (person instanceof Patient) {
+            options += "Enter 3 to read your patient record\n";
+        }
+
+        return options;
     }
 
     public Person getPerson(X509Certificate cert) {
