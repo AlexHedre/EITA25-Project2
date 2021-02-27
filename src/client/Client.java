@@ -30,8 +30,20 @@ public class Client {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter Username:");
         msg[0] = read.readLine();
-        System.out.println("Enter Password:");
-        msg[1] = read.readLine();
+
+        Console console = System.console();
+        if(console != null){
+            char[] pass = console.readPassword("Enter password:");
+            String password = "";
+            for(char c: pass){
+                password+=c;
+            }
+            msg[1]=password;
+        } else {
+            System.out.print("Enter Password:");
+            msg[1] = read.readLine();
+
+        }
 
         try { /* set up a key manager for client authentication */
             SSLSocketFactory factory = null;
