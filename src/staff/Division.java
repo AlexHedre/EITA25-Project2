@@ -9,7 +9,11 @@ public class Division {
         this.name = name;
     }
 
-    public String toString(){
+    public String getId() {
         return id;
+    }
+
+    public String toString(){
+        return name;
     }
 }

@@ -25,7 +25,6 @@ public class ClientInputManager {
 
     public void save() {
         journalsManager.saveJournals();
-        personInformationManager.saveFile();
     }
 
     public String handleClientInput(String input, Person person) {
@@ -34,6 +33,7 @@ public class ClientInputManager {
     }
 
     public Person getPerson(X509Certificate cert) {
-        return null;
+        //System.out.println(cert.getSerialNumber());
+        return personInformationManager.getPersonFromSerialNumber(cert.getSerialNumber());
     }
 }

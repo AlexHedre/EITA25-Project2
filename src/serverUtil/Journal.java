@@ -31,7 +31,7 @@ public class Journal {
     }
 
     public boolean canRead(Person person) {
-        return (person.getId().equals(patientId) || person instanceof GovermentAgency) ||
+        return (person.getId().equals(patientId) || person instanceof GovernmentAgency) ||
                ((person instanceof Doctor || person instanceof Nurse) && person.getDivision().equals(division));
     }
 
