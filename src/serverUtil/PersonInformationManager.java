@@ -34,6 +34,10 @@ public class PersonInformationManager {
         return null;
     }
 
+    public Set<Map.Entry<BigInteger, Person>> getPersons() {
+        return persons.entrySet();
+    }
+
     public Division getDivisionFromId (String id) {
         for (Division division : divisions) {
             if (division.getId().equals(id)) {
@@ -72,6 +76,7 @@ public class PersonInformationManager {
                     person = new GovernmentAgency(name, id);
                 } else {
                     person = new Patient(name ,division, id, personInfo[5]);
+                    division.addMember((Patient) person);
                 }
                 persons.put(serialNumber, person);
             }

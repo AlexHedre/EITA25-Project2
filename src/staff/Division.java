@@ -1,12 +1,24 @@
 package staff;
 
+import java.util.*;
+
 public class Division {
     private String id;
     private String name;
+    private ArrayList<Patient> members;
 
     public Division(String id, String name) {
         this.id = id;
         this.name = name;
+        members = new ArrayList<Patient>();
+    }
+
+    public void addMember (Patient patient) {
+        members.add(patient);
+    }
+
+    public ArrayList<Patient> getMembers() {
+        return members;
     }
 
     public String getId() {

@@ -26,16 +26,13 @@ public class Journal {
         return nurseId;
     }
 
+    public String getPatientId() { return patientId; }
+
     public void addRecord(Record record) {
         records.add(record);
     }
 
-    public boolean canRead(Person person) {
-        return (person.getId().equals(patientId) || person instanceof GovernmentAgency) ||
-               ((person instanceof Doctor || person instanceof Nurse) && person.getDivision().equals(division));
-    }
-
-    public boolean canWrite(Person person) {
+    public boolean isNurseOrDoctor(Person person) {
         return (person.getId().equals(doctorId) || person.getId().equals(nurseId));
     }
 

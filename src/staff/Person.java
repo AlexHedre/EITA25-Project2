@@ -23,4 +23,8 @@ public class Person {
         return div;
     }
 
+    public String toString() {
+        return name + ":" + id;
+    }
+
 }

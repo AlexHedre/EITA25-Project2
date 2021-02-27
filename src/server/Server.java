@@ -39,13 +39,19 @@ public class Server implements Runnable {
             Person person = clientInputManager.getPerson(cert);
 
             String clientMsg;
-            while (!(clientMsg = in.readLine()).isEmpty() && clientMsg != null && !clientMsg.equals("quit")) {
-
-                /*** where stuff needs to be done ***/
+            while ((clientMsg = in.readLine()) != null && !clientMsg.isEmpty() && !clientMsg.equals("quit")) {
                 String response = clientInputManager.handleClientInput(clientMsg, person);
                 out.println(response);
                 out.println("ENDOFMSG".toCharArray());
+
+                if (response.equals("Write information")){
+                    String information = in.readLine();
+                    response = clientInputManager.writeInformation(clientMsg.split(" ")[1], information, person);
+                    out.println(response);
+                    out.println("ENDOFMSG".toCharArray());
+                }
             }
+            clientInputManager.save();
             in.close();
             out.close();
             socket.close();

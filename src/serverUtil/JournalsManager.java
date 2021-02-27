@@ -93,18 +93,33 @@ public class JournalsManager {
         return null;
     }
 
+    public ArrayList<Patient> getPatientsForPerson(Person person) {
+        ArrayList<Patient> patients = new ArrayList<Patient>();
+        for (Entry<String, ArrayList<Journal>> e : journals.entrySet()) {
+            for (Journal j : e.getValue()) {
+                if (j.isNurseOrDoctor(person)) {
+                    patients.add((Patient) personInformationManager.getPersonFromId(j.getPatientId()));
+                }
+            }
+        }
+        return patients;
+    }
+
     public void deleteJournal(String patientId) {
         journals.remove(patientId);
     }
 
-    public void addJournal(String patientId, Doctor doctor, String nurseId) {
+    public boolean addJournal(String patientId, Doctor doctor, String nurseId) {
         Journal newJournal = new Journal(patientId, doctor.getId(), nurseId, doctor.getDivision());
         if (!journals.containsKey(patientId)) {
             ArrayList<Journal> patientsJournals = new ArrayList<Journal>();
             patientsJournals.add(newJournal);
             journals.put(patientId, patientsJournals);
+            return true;
         } else if (getJournal(patientId, doctor.getId()) == null){
             journals.get(patientId).add(newJournal);
+            return true;
         }
+        return false;
     }
 }
