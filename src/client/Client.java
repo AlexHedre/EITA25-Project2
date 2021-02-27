@@ -25,50 +25,54 @@ public class Client {
             System.exit(-1);
         }
 
-        /*** GET USERNAME AND PASSWORD ***/
         String[] msg = new String[2];
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter Username:");
-        msg[0] = read.readLine();
-
-        Console console = System.console();
-        if(console != null){
-            char[] pass = console.readPassword("Enter password:");
-            String password = "";
-            for(char c: pass){
-                password+=c;
-            }
-            msg[1]=password;
-        } else {
-            System.out.print("Enter Password:");
-            msg[1] = read.readLine();
-
-        }
 
         try { /* set up a key manager for client authentication */
             SSLSocketFactory factory = null;
-            try {
-                char[] password = msg[1].toCharArray();
-                KeyStore ks = KeyStore.getInstance("JKS");
-                KeyStore ts = KeyStore.getInstance("JKS");
-                KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
-                SSLContext ctx = SSLContext.getInstance("TLS");
+            KeyStore ks = KeyStore.getInstance("JKS");
+            KeyStore ts = KeyStore.getInstance("JKS");
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+            SSLContext ctx = SSLContext.getInstance("TLS");
 
-                if (msg[0].equals("GovernmentKS")) {
-                    ks.load(new FileInputStream("Certificates/GovernmentStore/" + msg[0]), password);  //keystore
-                    ts.load(new FileInputStream("Certificates/GovernmentStore/governmenttruststore"), "password".toCharArray()); //truststore
-                } else {
-                    ks.load(new FileInputStream("Certificates/ClientStore/" + msg[0]), password);  //keystore
-                    ts.load(new FileInputStream("Certificates/ClientStore/clienttruststore"), "password".toCharArray()); //truststore
+            while (true) {
+                try {
+                    System.out.print("Enter Username:");
+                    msg[0] = read.readLine();
+
+                    Console console = System.console();
+                    if (console != null) {
+                        char[] pass = console.readPassword("Enter password:");
+                        String password = "";
+                        for (char c : pass) {
+                            password += c;
+                        }
+                        msg[1] = password;
+                    } else {
+                        System.out.print("Enter Password:");
+                        msg[1] = read.readLine();
+                    }
+
+                    char[] password = msg[1].toCharArray();
+
+                    if (msg[0].equals("GovernmentKS")) {
+                        ks.load(new FileInputStream("Certificates/GovernmentStore/" + msg[0]), password);  //keystore
+                        ts.load(new FileInputStream("Certificates/GovernmentStore/governmenttruststore"), "password".toCharArray()); //truststore
+                    } else {
+                        ks.load(new FileInputStream("Certificates/ClientStore/" + msg[0]), password);  //keystore
+                        ts.load(new FileInputStream("Certificates/ClientStore/clienttruststore"), "password".toCharArray()); //truststore
+                    }
+
+                    kmf.init(ks, password); // user password (keypass)
+                    tmf.init(ts); // keystore can be used as truststore here
+                    ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+                    factory = ctx.getSocketFactory();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid username or password");
+                    continue;
                 }
-
-                kmf.init(ks, password); // user password (keypass)
-                tmf.init(ts); // keystore can be used as truststore here
-                ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-                factory = ctx.getSocketFactory();
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
             }
 
             SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
@@ -101,11 +105,11 @@ public class Client {
                 }
                 System.out.print(">");
                 msg[0] = read.readLine();
+                out.println(msg[0]);
+                out.flush();
                 if (msg[0].equalsIgnoreCase("quit")) {
                     break;
                 }
-                out.println(msg[0]);
-                out.flush();
             }
             in.close();
             out.close();
