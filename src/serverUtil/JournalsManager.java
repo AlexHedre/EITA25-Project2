@@ -111,6 +111,13 @@ public class JournalsManager {
 
     public boolean addJournal(String patientId, Doctor doctor, String nurseId) {
         Journal newJournal = new Journal(patientId, doctor.getId(), nurseId, doctor.getDivision());
+        Person patient = personInformationManager.getPersonFromId(patientId);
+        Person nurse = personInformationManager.getPersonFromId(nurseId);
+        if (!(patient instanceof Patient && nurse instanceof Nurse) ||
+            !(patient.getDivision().equals(doctor.getDivision()) && nurse.getDivision().equals(doctor.getDivision()))) {
+            return false;
+        }
+
         if (!journals.containsKey(patientId)) {
             ArrayList<Journal> patientsJournals = new ArrayList<Journal>();
             patientsJournals.add(newJournal);

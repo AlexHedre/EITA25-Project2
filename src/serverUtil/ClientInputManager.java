@@ -114,7 +114,7 @@ public class ClientInputManager {
                     response += "Record for patient was successfully created\n";
                     Logger.log(person.getId(), patientId, "created patient record");
                 } else {
-                    response += "Patient already has a record created by you\n";
+                    response += "Unable to create record for patient\n";
                     Logger.log(person.getId(), patientId, "tried to create patient record");
                 }
                 return response + "\n" + listOptions(person);
