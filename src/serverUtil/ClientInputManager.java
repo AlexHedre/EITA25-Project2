@@ -3,6 +3,7 @@ package serverUtil;
 import serverUtil.*;
 import staff.*;
 import javax.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 public class ClientInputManager {
 
@@ -29,13 +30,51 @@ public class ClientInputManager {
 
     public String handleClientInput(String clientInput, Person person) {
         String[] inputs = clientInput.split(" ");
+        String option = (inputs.length > 0 ? inputs[0] : "");
 
+        if (option.equals(LIST_PATIENT_RECORDS) &&
+                (person instanceof Nurse || person instanceof Doctor)) {
+            Logger.log(person.getId(), person.getName(), "viewed associated patient records");
 
+        }
+        else if (option.equals(LIST_DIVISION_RECORDS) &&
+                (person instanceof Nurse || person instanceof Doctor)) {
+            Logger.log(person.getId(), person.getDivision().toString(), "viewed division patient records");
+
+        }
+        else if (option.equals(READ_PATIENT_RECORD) && person instanceof Patient) {
+            Logger.log(person.getId(), person.getName(), "read patient record");
+            ArrayList<Journal> journals = journalsManager.getJournals(person.getId());
+            String response = "";
+            if (journals == null) {
+                response += "You don't have any records\n";
+            } else {
+                for (Journal journal: journals) {
+                    response += journal;
+                }
+            }
+            return response + "\n" + listOptions(person);
+        }
+        else if (option.equals(READ_PATIENT_RECORD) && (person instanceof GovernmentAgency ||
+                person instanceof Nurse || person instanceof Doctor)) {
+            //Logger.log(person.getId(), patientId, "accessed patient records");
+        }
+        else if (option.equals(WRITE_PATIENT_RECORD) &&
+                (person instanceof Nurse || person instanceof Doctor)) {
+            //Logger.log(person.getId(), patientId, "wrote to patient record");
+        }
+        else if (option.equals(CREATE_PATIENT_RECORD) && person instanceof Doctor) {
+            //Logger.log(person.getId(), patientId, "created patient record");
+        }
+        else if (option.equals(DELETE_PATIENT_RECORD) && person instanceof GovernmentAgency) {
+            //Logger.log(person.getId(), patientId, "deleted patient record");
+
+        }
 
         return listOptions(person);
     }
 
-    private String listOptions(Person person) {
+    public String listOptions(Person person) {
         String options = "";
 
         if (person instanceof Nurse || person instanceof Doctor) {

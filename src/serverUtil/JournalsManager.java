@@ -86,6 +86,13 @@ public class JournalsManager {
         return null;
     }
 
+    public ArrayList<Journal> getJournals(String patientId) {
+        if (journals.containsKey(patientId)) {
+            return journals.get(patientId);
+        }
+        return null;
+    }
+
     public void deleteJournal(String patientId) {
         journals.remove(patientId);
     }
