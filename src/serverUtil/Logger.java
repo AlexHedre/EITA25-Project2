@@ -54,7 +54,7 @@ public class Logger {
      * @param action
      */
 
-    public static void log(String editor, String patient, String action) {
+    public void log(String editor, String patient, String action) {
         output.println(getTimeDate() + ": " + editor + " " + action + " for "  + patient);
         output.flush();
     }
