@@ -12,11 +12,24 @@ public class JournalsManager {
     private HashMap<String, ArrayList<Journal>> journals;
     private PersonInformationManager personInformationManager;
 
+    /**
+     * This is the class that manages the read/write of the journal file
+     * and uses a PersonInformationManager when adding to the journal (a sort of authentication and nonrepudiation).
+     * The journals map has the patientID as key.
+     *
+     * @param personInformationManager
+     */
+
     public JournalsManager(PersonInformationManager personInformationManager) {
         journals = new HashMap<String, ArrayList<Journal>>();
         this.personInformationManager = personInformationManager;
         readJournals();
     }
+
+    /**
+     * Writes the journals map to the journals file
+     * according to each journal entry's toString.
+     */
 
     public void saveJournals() {
         PrintWriter pw = null;
@@ -43,6 +56,10 @@ public class JournalsManager {
         }
         pw.close();
     }
+
+    /**
+     * Reads a given journal file and imports all data into this model class.
+     */
 
     public void readJournals() {
         FileReader fileReader;
@@ -75,6 +92,16 @@ public class JournalsManager {
         }
     }
 
+    /**
+     * Used by a doctor or a nurse when requesting the journal of a given
+     * patient, which will be rejected if the patient does not have the input person
+     * registered as a doctor/nurse (and returns null).
+     *
+     * @param patientId
+     * @param doctorOrNurseId
+     * @return
+     */
+
     public Journal getJournal(String patientId, String doctorOrNurseId) {
         if (journals.containsKey(patientId)) {
             for (Journal j : journals.get(patientId)) {
@@ -86,12 +113,27 @@ public class JournalsManager {
         return null;
     }
 
+    /**
+     * Used by a patient when requesting to see its journals.
+     *
+     * @param patientId
+     * @return
+     */
+
     public ArrayList<Journal> getJournals(String patientId) {
         if (journals.containsKey(patientId)) {
             return journals.get(patientId);
         }
         return null;
     }
+
+    /**
+     * Used by a doctor or a nurse when requesting to see the journals
+     * of all of its corresponding patients.
+     *
+     * @param person
+     * @return
+     */
 
     public ArrayList<Patient> getPatientsForPerson(Person person) {
         ArrayList<Patient> patients = new ArrayList<Patient>();
@@ -105,9 +147,25 @@ public class JournalsManager {
         return patients;
     }
 
+    /**
+     * Deletes a journal entry from the model.
+     *
+     * @param patientId
+     */
+
     public void deleteJournal(String patientId) {
         journals.remove(patientId);
     }
+
+    /**
+     * Adding a new Journal give patientId, doctor and nurseID only if
+     * they have appropriate clearances.
+     *
+     * @param patientId
+     * @param doctor
+     * @param nurseId
+     * @return
+     */
 
     public boolean addJournal(String patientId, Doctor doctor, String nurseId) {
         Journal newJournal = new Journal(patientId, doctor.getId(), nurseId, doctor.getDivision());

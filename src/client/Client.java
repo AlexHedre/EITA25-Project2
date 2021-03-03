@@ -7,7 +7,14 @@ import java.security.KeyStore;
 
 public class Client {
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * The class responsible for the client side of
+     * the TLS communication.
+     * @param args
+     * @throws Exception
+     */
+
+    public static void main(String [] args) throws Exception {
         String host = null;
         int port = -1;
         for (int i = 0; i < args.length; i++) {

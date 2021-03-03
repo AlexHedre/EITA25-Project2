@@ -11,6 +11,12 @@ public class PersonInformationManager {
     private HashMap<BigInteger, Person> persons;
     private ArrayList<Division> divisions;
 
+    /**
+     * Class that handles all the personal information
+     * given in the personInformation file. A general row in the file is of the form:
+     * serialNumber: type: division: id: name
+     */
+
     public PersonInformationManager () {
         persons = new HashMap<BigInteger, Person>();
         divisions = new ArrayList<Division>();

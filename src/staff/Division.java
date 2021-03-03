@@ -7,6 +7,13 @@ public class Division {
     private String name;
     private ArrayList<Patient> members;
 
+    /**
+     * The division class has an id and a name as attributes and a
+     * list of patients.
+     * @param id
+     * @param name
+     */
+
     public Division(String id, String name) {
         this.id = id;
         this.name = name;

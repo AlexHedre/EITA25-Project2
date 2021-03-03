@@ -17,6 +17,34 @@ public class Server implements Runnable {
         newListener();
     }
 
+    private void newListener() { (new Thread(this)).start(); } // calls run()
+
+    /**
+     * The class responsible for the server side
+     * of the TLS communication. Implementing Runnable for concurrent features.
+     * Takes the port number as input.
+     *
+     * @param args
+     */
+
+    public static void main(String args[]) {
+        System.out.println("\nServer Started\n");
+        int port = -1;
+        if (args.length >= 1) {
+            port = Integer.parseInt(args[0]);
+        }
+        String type = "TLS";
+        try {
+            ServerSocketFactory ssf = getServerSocketFactory(type);
+            ServerSocket ss = ssf.createServerSocket(port);
+            ((SSLServerSocket)ss).setNeedClientAuth(true); // enables client authentication
+            new Server(ss);
+        } catch (IOException e) {
+            System.out.println("Unable to start Server: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void run() {
         try {
             SSLSocket socket=(SSLSocket)serverSocket.accept();
@@ -62,26 +90,6 @@ public class Server implements Runnable {
             System.out.println("Client died: " + e.getMessage());
             e.printStackTrace();
             return;
-        }
-    }
-
-    private void newListener() { (new Thread(this)).start(); } // calls run()
-
-    public static void main(String args[]) {
-        System.out.println("\nServer Started\n");
-        int port = -1;
-        if (args.length >= 1) {
-            port = Integer.parseInt(args[0]);
-        }
-        String type = "TLS";
-        try {
-            ServerSocketFactory ssf = getServerSocketFactory(type);
-            ServerSocket ss = ssf.createServerSocket(port);
-            ((SSLServerSocket)ss).setNeedClientAuth(true); // enables client authentication
-            new Server(ss);
-        } catch (IOException e) {
-            System.out.println("Unable to start Server: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

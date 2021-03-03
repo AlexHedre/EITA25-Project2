@@ -20,6 +20,12 @@ public class ClientInputManager {
     private JournalsManager journalsManager;
     private Logger logger;
 
+    /**
+     * The main class used by the Server when handling the input given by a client.
+     * It uses a personInformationManager (keeping track of every person in the system),
+     * a journalsManager (writing and reading the journals file) and a logger.
+     */
+
     public ClientInputManager() {
         personInformationManager = new PersonInformationManager();
         journalsManager = new JournalsManager(personInformationManager);

@@ -11,7 +11,7 @@ public class Journal {
     private Division division;
 
     public Journal(String patientId, String doctorId, String nurseId, Division division) {
-        records = new ArrayList<Record>();
+        records = new ArrayList<>();
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.nurseId = nurseId;
