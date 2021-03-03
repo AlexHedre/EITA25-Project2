@@ -121,7 +121,7 @@ public class ClientInputManager {
                     logger.log(person.getId(), patientId, "created patient record");
                 } else {
                     response += "Unable to create record for patient\n";
-                    Logger.log(person.getId(), patientId, "tried to create patient record");
+                    logger.log(person.getId(), patientId, "tried to create patient record");
                 }
                 return response + "\n" + listOptions(person);
             }
