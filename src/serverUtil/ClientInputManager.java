@@ -47,7 +47,7 @@ public class ClientInputManager {
             for (Patient patient : journalsManager.getPatientsForPerson(person)) {
                 response += patient + "\n";
             }
-            Logger.log(person.getId(), person.getId(), "viewed associated patient records");
+            logger.log(person.getId(), person.getId(), "viewed associated patient records");
             return response + "\n" + listOptions(person);
         }
         else if (option.equals(LIST_DIVISION_RECORDS) &&
@@ -57,7 +57,7 @@ public class ClientInputManager {
             for (Patient patient : person.getDivision().getMembers()) {
                 response += patient + "\n";
             }
-            Logger.log(person.getId(), person.getDivision().toString(), "viewed division patient records");
+            logger.log(person.getId(), person.getDivision().toString(), "viewed division patient records");
             return response + "\n" + listOptions(person);
         }
         else if (option.equals(READ_PATIENT_RECORD) && person instanceof Patient) {
@@ -71,7 +71,7 @@ public class ClientInputManager {
                     response += journal + "\n";
                 }
             }
-            Logger.log(person.getId(), person.getId(), "read patient record");
+            logger.log(person.getId(), person.getId(), "read patient record");
             return response + "\n" + listOptions(person);
         }
         else if (inputs.length > 1) {
@@ -86,7 +86,7 @@ public class ClientInputManager {
                 } else {
                     response += journalsManager.getJournal(patientId, person.getId()) + "\n";
                 }
-                Logger.log(person.getId(), patientId, "accessed patient records");
+                logger.log(person.getId(), patientId, "accessed patient records");
                 return response + "\n" + listOptions(person);
             }
             else if (option.equals(READ_PATIENT_RECORD) && person instanceof GovernmentAgency) {
@@ -100,7 +100,7 @@ public class ClientInputManager {
                         response += journal + "\n";
                     }
                 }
-                Logger.log(person.getId(), patientId, "accessed patient records");
+                logger.log(person.getId(), patientId, "accessed patient records");
                 return response + "\n" + listOptions(person);
             }
             else if (option.equals(WRITE_PATIENT_RECORD) &&
@@ -118,7 +118,7 @@ public class ClientInputManager {
                 String response = "";
                 if (journalsManager.addJournal(patientId, (Doctor) person, nurseId)) {
                     response += "Record for patient was successfully created\n";
-                    Logger.log(person.getId(), patientId, "created patient record");
+                    logger.log(person.getId(), patientId, "created patient record");
                 } else {
                     response += "Unable to create record for patient\n";
                     Logger.log(person.getId(), patientId, "tried to create patient record");
@@ -127,7 +127,7 @@ public class ClientInputManager {
             }
             else if (option.equals(DELETE_PATIENT_RECORD) && person instanceof GovernmentAgency) {
 
-                Logger.log(person.getId(), patientId, "deleted patient record");
+                logger.log(person.getId(), patientId, "deleted patient record");
                 journalsManager.deleteJournal(patientId);
                 return "Patient record was deleted" + "\n\n" + listOptions(person);
             }
@@ -137,7 +137,7 @@ public class ClientInputManager {
     }
 
     public String writeInformation(String patientId, String information, Person person) {
-        Logger.log(person.getId(), patientId, "wrote to patient record");
+        logger.log(person.getId(), patientId, "wrote to patient record");
         journalsManager.getJournal(patientId, person.getId()).addRecord(new Record(information, Logger.getDate()));
         return "Record was successfully written" + "\n\n" + listOptions(person);
     }
@@ -167,7 +167,6 @@ public class ClientInputManager {
     }
 
     public Person getPerson(X509Certificate cert) {
-        //System.out.println(cert.getSerialNumber());
         return personInformationManager.getPersonFromSerialNumber(cert.getSerialNumber());
     }
 }
